@@ -1,0 +1,51 @@
+/* ============================================
+   THEME STYLES
+   Tema ayarları (Light Mode - Devre Dışı)
+   ============================================ */
+
+/* Light Mode - Devre Dışı (Sadece Siyah/Gri/Sarı) */
+body.light-mode {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+body.light-mode::before {
+    background: #000000;
+}
+
+body.light-mode::after {
+    opacity: 0.75;
+}
+
+body.light-mode .bg-dark {
+    background-color: transparent;
+    color: #ffffff;
+}
+
+body.light-mode .glass {
+    background: rgba(15, 15, 15, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+body.light-mode .bg-slate-800,
+body.light-mode .bg-slate-800\/50,
+body.light-mode input,
+body.light-mode select {
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+body.light-mode .text-gray-400 {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+body.light-mode .text-gray-300 {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+body.light-mode .text-white {
+    color: #ffffff !important;
+}
+

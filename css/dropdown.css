@@ -1,0 +1,99 @@
+#mobile-dropdown {
+    background: #000000 !important;
+    backdrop-filter: none !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    min-height: 100vh !important;
+    z-index: 90 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#mobile-dropdown:not(.hidden):not(.closing) {
+    animation: slideDown 0.4s ease-out;
+}
+
+#mobile-dropdown:not(.hidden) ~ * #top-nav,
+body:has(#mobile-dropdown:not(.hidden)) #top-nav {
+    z-index: 100 !important;
+    position: relative;
+}
+
+#mobile-dropdown:not(.hidden) ~ * #mobile-menu-btn,
+body:has(#mobile-dropdown:not(.hidden)) #mobile-menu-btn {
+    z-index: 101 !important;
+    position: relative;
+}
+
+#mobile-dropdown:not(.hidden) {
+    display: flex !important;
+}
+
+#mobile-dropdown.hidden {
+    display: none !important;
+}
+
+body:has(#mobile-dropdown:not(.hidden)) {
+    overflow: hidden !important;
+}
+
+/* Dropdown açıkken main container'ı da sabitle */
+body:has(#mobile-dropdown:not(.hidden)) .min-h-screen {
+    position: relative !important;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+}
+
+/* Kapanma animasyonu için class */
+#mobile-dropdown.closing {
+    animation: slideUp 0.4s ease-out forwards;
+}
+
+#mobile-menu-btn {
+    transition: transform 0.3s ease;
+    z-index: 60;
+    position: relative;
+}
+
+#mobile-menu-btn:active {
+    transform: scale(0.95);
+}
+
+/* Mobil dropdown içindeki butonlar - Sadece Text */
+#mobile-dropdown button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+/* Dropdown açıkken navbar'ı gizle */
+#mobile-dropdown:not(.hidden) ~ * {
+    pointer-events: none;
+}
+

@@ -1,0 +1,1 @@
+EXAMPLE_API_KEY = 7ec0db0749mshc2e8ffb43846d44p1d4909jsnc76ec3f1fbc1

@@ -1,0 +1,127 @@
+/* ============================================
+   NAVBAR COMPONENT
+   Top Navigation Bar Stilleri
+   ============================================ */
+
+/* Top Navigation Styles (Studio Lumio Style) */
+#top-nav {
+    backdrop-filter: blur(20px);
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Mobil için navbar inceltme */
+@media (max-width: 1023px) {
+    #top-nav {
+        padding-top: 0.75rem !important;
+        padding-bottom: 0.75rem !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        max-width: 100vw !important;
+        width: 100% !important;
+        overflow-x: hidden !important;
+    }
+    
+    #top-nav .max-w-7xl {
+        max-width: 100% !important;
+        width: 100% !important;
+        overflow-x: hidden !important;
+    }
+    
+    #top-nav .w-10 {
+        width: 2rem;
+        height: 2rem;
+    }
+    
+    #top-nav .w-5 {
+        width: 1rem;
+        height: 1rem;
+    }
+}
+
+/* Desktop için navbar hafif inceltme */
+@media (min-width: 1024px) {
+    #top-nav {
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+    }
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, 0.5) !important;
+    background: transparent !important;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: none;
+    border-radius: 6px;
+}
+
+.nav-link:hover {
+    color: rgba(255, 255, 255, 0.5) !important;
+    background: transparent !important;
+}
+
+.nav-link.active-nav {
+    color: rgba(255, 255, 255, 0.5) !important;
+    background: transparent !important;
+}
+
+/* Sarı renk override'larını kaldır */
+.nav-link.active-nav,
+.nav-link[data-tab].active-nav,
+button.nav-link.active-nav {
+    color: rgba(255, 255, 255, 0.5) !important;
+    background: transparent !important;
+}
+
+/* Navigasyon butonlarında accent-yellow class'ını override et - TÜM DURUMLAR İÇİN */
+.nav-link,
+.nav-link.accent-yellow,
+.nav-link.active-nav,
+.nav-link.active-nav.accent-yellow,
+button.nav-link,
+button.nav-link.accent-yellow,
+button.nav-link.active-nav,
+button.nav-link.active-nav.accent-yellow,
+#top-nav .nav-link,
+#top-nav .nav-link.accent-yellow,
+#top-nav .nav-link.active-nav,
+#top-nav button.nav-link,
+#top-nav button.nav-link.accent-yellow,
+#top-nav button.nav-link.active-nav {
+    color: rgba(255, 255, 255, 0.5) !important;
+    background: transparent !important;
+}
+
+/* Desktop Navigation Styles (Legacy - for sidebar if needed) */
+.desktop-nav-btn {
+    color: rgba(255, 255, 255, 0.5) !important;
+    background: transparent !important;
+    border: 1px solid transparent;
+    transition: none;
+}
+
+.desktop-nav-btn:hover {
+    background: transparent !important;
+    color: rgba(255, 255, 255, 0.5) !important;
+    border-color: transparent;
+}
+
+.desktop-nav-btn.active-nav {
+    background: transparent !important;
+    color: rgba(255, 255, 255, 0.5) !important;
+    font-weight: 500;
+    border-color: transparent;
+}
+
+.desktop-nav-btn,
+.desktop-nav-btn.accent-yellow,
+.desktop-nav-btn.active-nav,
+.desktop-nav-btn.active-nav.accent-yellow {
+    color: rgba(255, 255, 255, 0.5) !important;
+    background: transparent !important;
+}
+

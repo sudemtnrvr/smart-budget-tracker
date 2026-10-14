@@ -1,0 +1,87 @@
+/* ============================================
+   UTILITIES COMPONENT
+   Yardımcı Sınıflar ve Utility Stilleri
+   ============================================ */
+
+/* Scrollbar Styling */
+.hide-scroll::-webkit-scrollbar { 
+    display: none; 
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Typography Improvements */
+h1, h2, h3, h4, h5, h6 {
+    letter-spacing: -0.03em;
+    font-weight: 700;
+}
+
+h1 {
+    font-weight: 800;
+}
+
+/* Large Hero Text */
+.text-hero {
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+}
+
+/* Modern Link Styles */
+a {
+    color: #FFC700;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #FFD700;
+}
+
+/* Improved Text Selection */
+::selection {
+    background: rgba(255, 199, 0, 0.3);
+    color: white;
+}
+
+/* Mobil için genişlik kontrolleri */
+* {
+    box-sizing: border-box;
+}
+
+/* Mobil cihazlarda taşmayı önle */
+@media (max-width: 1023px) {
+    body, html {
+        overflow-x: hidden !important;
+        max-width: 100vw !important;
+        width: 100% !important;
+    }
+    
+    .max-w-7xl {
+        max-width: 100% !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+    
+    img, video, canvas, svg {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+}
+

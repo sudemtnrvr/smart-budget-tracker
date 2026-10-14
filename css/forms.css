@@ -1,0 +1,24 @@
+/* ============================================
+   FORMS COMPONENT
+   Input, Select, Textarea Stilleri
+   ============================================ */
+
+/* Modern Input Styles */
+input, select, textarea {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: #FFC700 !important;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 199, 0, 0.1);
+}
+
+input::placeholder, textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4) !important;
+}
+

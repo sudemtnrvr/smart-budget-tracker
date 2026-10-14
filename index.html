@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeWallet | Finans & Asistan</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/dropdown.css">
+    <link rel="stylesheet" href="css/buttons.css">
+    <link rel="stylesheet" href="css/cards.css">
+    <link rel="stylesheet" href="css/forms.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/utilities.css">
+</head>
+<body class="bg-dark min-h-screen overflow-x-hidden">
+
+    <nav id="top-nav" class="fixed top-0 left-0 right-0 z-[100] px-4 lg:px-12 py-3 lg:py-4 hidden">
+        <div class="max-w-7xl mx-auto flex justify-between items-center relative">
+            <div class="flex items-center gap-3 flex-shrink-0 cursor-pointer" onclick="goToHome()">
+                <span class="text-sm font-medium text-white">LifeWallet</span>
+            </div>
+            
+            <div class="hidden lg:flex items-center gap-4 lg:gap-6 absolute left-1/2 transform -translate-x-1/2 nav-center">
+                <button onclick="switchTab('transactions')" class="nav-link" data-tab="transactions">Cüzdan</button>
+                <button onclick="switchTab('lists')" class="nav-link" data-tab="lists">Listeler</button>
+                <button onclick="switchTab('reminders')" class="nav-link" data-tab="reminders">Alarm</button>
+            </div>
+            
+            <div class="hidden lg:flex items-center gap-2 lg:gap-4 flex-shrink-0">
+                <button onclick="switchTab('settings')" class="nav-link" data-tab="settings">Ayarlar</button>
+                <button onclick="logout()" class="modern-btn-yellow px-3 lg:px-4 py-2 text-xs lg:text-sm font-medium">
+                    Çıkış
+                </button>
+            </div>
+            
+            <div class="lg:hidden flex items-center flex-shrink-0">
+                <button onclick="toggleMobileMenu()" id="mobile-menu-btn" class="p-2 text-white hover:text-accent-yellow transition-colors relative z-[101]">
+                    <i data-lucide="menu" class="w-6 h-6" id="mobile-menu-icon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <div id="mobile-dropdown" class="lg:hidden fixed top-0 left-0 right-0 bottom-0 w-full h-full bg-black z-[100] hidden flex flex-col">
+        <div class="flex-1 flex flex-col justify-center items-center w-full px-6 space-y-8">
+            <button onclick="switchTab('transactions')" class="w-full text-center text-gray-400 text-2xl font-medium py-4 hover:text-white transition-colors" data-tab="transactions">
+                Cüzdan
+            </button>
+            <button onclick="switchTab('lists')" class="w-full text-center text-gray-400 text-2xl font-medium py-4 hover:text-white transition-colors" data-tab="lists">
+                Listeler
+            </button>
+            <button onclick="switchTab('reminders')" class="w-full text-center text-gray-400 text-2xl font-medium py-4 hover:text-white transition-colors" data-tab="reminders">
+                Alarm
+            </button>
+            <button onclick="switchTab('settings')" class="w-full text-center text-gray-400 text-2xl font-medium py-4 hover:text-white transition-colors" data-tab="settings">
+                Ayarlar
+            </button>
+            <div class="border-t border-white/10 w-full my-4"></div>
+            <button onclick="logout(); toggleMobileMenu();" class="w-full text-center text-gray-400 text-2xl font-medium py-4 hover:text-white transition-colors">
+                Çıkış
+            </button>
+        </div>
+    </div>
+
+    <div class="min-h-screen w-full overflow-x-hidden max-w-full">
+        
+        <div id="splash-screen" class="fixed inset-0 z-50 flex items-center justify-center min-h-screen w-full overflow-x-hidden px-4">
+            <div class="text-center w-full max-w-full">
+                <h1 id="splash-title" class="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold tracking-tight text-white mb-8 opacity-0 break-words">
+                    LIFEWALLET
+                </h1>
+                <button id="splash-continue-btn" onclick="showLoginScreen()" class="modern-btn-yellow px-6 sm:px-8 py-3 text-base sm:text-lg font-bold opacity-0 hidden w-auto max-w-full">
+                    İlerle
+                </button>
+            </div>
+        </div>
+        
+        <div id="login-screen" class="min-h-screen flex items-center justify-center px-4 py-20 hidden w-full overflow-x-hidden">
+            <div class="w-full max-w-md overflow-x-hidden">
+                <div class="glass rounded-3xl p-6 sm:p-8 lg:p-12 text-center overflow-x-hidden">
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 tracking-tight break-words">LIFEWALLET</h1>
+                    <p class="text-gray-400 mb-8 text-lg">Bütçe, Alışveriş ve Hatırlatıcılar</p>
+                    
+                    <div class="flex bg-black/30 p-1 rounded-xl mb-6 border border-white/10">
+                        <button onclick="switchAuthTab('login')" id="btn-tab-login" class="flex-1 py-3 rounded-lg bg-accent-yellow text-black font-medium transition-all">Giriş Yap</button>
+                        <button onclick="switchAuthTab('signup')" id="btn-tab-signup" class="flex-1 py-3 rounded-lg text-gray-400 font-medium transition-all">Kayıt Ol</button>
+                    </div>
+
+                    <div id="login-form" class="auth-form">
+                        <input type="email" id="login-email" placeholder="E-posta" class="w-full rounded-xl p-4 mb-4 outline-none">
+                        <input type="password" id="login-password" placeholder="Şifre" class="w-full rounded-xl p-4 mb-4 outline-none">
+                        <button onclick="loginUser()" class="w-full modern-btn-yellow font-bold py-4 rounded-xl transition-all">Giriş Yap</button>
+                    </div>
+
+                    <div id="signup-form" class="auth-form hidden">
+                        <input type="text" id="signup-name" placeholder="Adınız" class="w-full rounded-xl p-4 mb-4 outline-none">
+                        <input type="email" id="signup-email" placeholder="E-posta" class="w-full rounded-xl p-4 mb-4 outline-none">
+                        <input type="password" id="signup-password" placeholder="Şifre (min 6 karakter)" class="w-full rounded-xl p-4 mb-4 outline-none">
+                        <input type="password" id="signup-password-confirm" placeholder="Şifreyi Onayla" class="w-full rounded-xl p-4 mb-4 outline-none">
+                        <button onclick="signupUser()" class="w-full modern-btn-yellow font-bold py-4 rounded-xl transition-all">Kayıt Ol</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="salary-setup-screen" class="min-h-screen flex items-center justify-center px-4 py-20 hidden w-full overflow-x-hidden">
+            <div class="w-full max-w-md overflow-x-hidden">
+                <div class="glass rounded-3xl p-8 lg:p-12 text-center">
+                    <div class="w-16 h-16 bg-accent-yellow rounded-full flex items-center justify-center mx-auto mb-6 glow-yellow">
+                        <i data-lucide="briefcase" class="w-8 h-8 text-black"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold mb-2">Aylık Maaşı Ayarla</h2>
+                    <p class="text-gray-400 mb-6">Her ay otomatik olarak eklenecek aylık net gelir</p>
+                    
+                    <div class="space-y-4">
+                        <input type="text" inputmode="decimal" id="setup-salary-amount" placeholder="Aylık Net Gelir (₺)" class="w-full rounded-xl p-4 outline-none">
+                        <input type="date" id="setup-salary-date" class="w-full rounded-xl p-4 outline-none">
+                        <p class="text-xs text-gray-400 text-left">Her ayın bu tarihinde maaş eklenecek (örn: 15 Ocak seçerseniz, her ayın 15'inde eklenecek)</p>
+                        <button onclick="setupSalary()" class="w-full modern-btn-yellow font-bold py-4 rounded-xl transition-all">Kaydet ve Devam Et</button>
+                        <button onclick="skipSalarySetup()" class="w-full modern-btn font-bold py-4 rounded-xl transition-all">Atla</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <main id="app-screen" class="hidden min-h-screen">
+            
+            <div class="max-w-7xl mx-auto px-4 lg:px-12 pt-24 lg:pt-32 pb-32 lg:pb-24 w-full overflow-x-hidden">
+                
+                <div class="mb-12 lg:mb-16">
+                    <h2 class="text-sm text-gray-400 uppercase tracking-wider mb-2">Hoşgeldin,</h2>
+                    <h1 id="display-name" class="text-5xl lg:text-7xl font-bold tracking-tight">Kullanıcı</h1>
+                </div>
+
+                <div id="reminder-alert-area" class="mb-8 hidden"></div>
+
+                <div class="mb-6 glass p-4 rounded-none text-sm">
+                    <div class="flex items-center justify-between">
+                        <label class="text-gray-300">Test Tarihi (Aylık Maaş Test):</label>
+                        <button onclick="toggleTestDatePanel()" class="text-accent-yellow hover:text-yellow-300 text-xs px-3 py-1 rounded bg-yellow-500/10 border border-yellow-500/20">Aç</button>
+                    </div>
+                    <div id="test-date-panel" class="hidden mt-3 space-y-2 border-t border-gray-700 pt-3">
+                        <input type="date" id="test-date-input" class="w-full rounded-lg p-2 text-sm outline-none" value="2025-12-24">
+                        <div class="flex gap-2">
+                            <button onclick="setTestDate()" class="flex-1 modern-btn-yellow py-2 rounded-lg text-xs font-medium">Uygula</button>
+                            <button onclick="resetTestDate()" class="flex-1 modern-btn py-2 rounded-lg text-xs font-medium">Bugüne Döndür</button>
+                        </div>
+                        <p id="current-test-date" class="text-gray-400 text-xs text-center">Mevcut tarih: <span id="test-date-display">Bugün</span></p>
+                    </div>
+                </div>
+
+                <section id="tab-dashboard" class="tab-content active space-y-8">
+                    
+                    <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+                        <div class="glass p-6 rounded-none">
+                            <div class="flex items-center gap-2 accent-yellow mb-3">
+                                <i data-lucide="arrow-down-circle" class="w-6 h-6"></i>
+                                <span>Gelir</span>
+                            </div>
+                            <p id="total-income" class="text-3xl lg:text-4xl font-bold">0 ₺</p>
+                        </div>
+                        <div class="glass p-6 rounded-none">
+                            <div class="flex items-center gap-2 text-gray-400 mb-3">
+                                <i data-lucide="arrow-up-circle" class="w-6 h-6"></i>
+                                <span>Gider</span>
+                            </div>
+                            <p id="total-expense" class="text-3xl lg:text-4xl font-bold">0 ₺</p>
+                        </div>
+                        <div class="glass p-6 rounded-none text-center col-span-2 lg:col-span-1">
+                            <h4 class="text-sm text-gray-400 mb-2">Net Varlık</h4>
+                            <p id="net-amount" class="text-3xl lg:text-4xl font-bold">0 ₺</p>
+                        </div>
+                    </div>
+
+                    <div class="grid lg:grid-cols-2 gap-6">
+                        <div class="glass p-6 rounded-none">
+                            <h3 class="font-bold mb-4 flex items-center gap-2 text-lg">
+                                Harcama Dağılımı
+                            </h3>
+                            <div class="h-64 flex justify-center">
+                                <canvas id="expenseChart"></canvas>
+                            </div>
+                            <p id="top-category-msg" class="text-center text-sm text-gray-400 mt-4">Henüz veri yok.</p>
+                        </div>
+
+                        <div class="glass p-6 rounded-none space-y-4">
+                            <h3 class="font-bold text-lg">Zaman Analizi</h3>
+                            <div class="flex justify-between items-center border-b border-gray-700 pb-3">
+                                <span class="text-gray-400">Bugün Harcanan</span>
+                                <span id="spent-today" class="font-mono font-bold text-lg">0 ₺</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-gray-700 pb-3">
+                                <span class="text-gray-400">Bu Hafta</span>
+                                <span id="spent-week" class="font-mono font-bold text-lg">0 ₺</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400">Bu Ay</span>
+                                <span id="spent-month" class="font-mono font-bold text-lg">0 ₺</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass p-6 rounded-none">
+                        <h3 class="font-bold mb-4 flex items-center gap-2 text-lg">
+                            <i data-lucide="repeat" class="w-6 h-6 text-accent-yellow"></i>
+                            Düzenli Harcamalar
+                        </h3>
+                        <div id="recurring-expenses-list" class="space-y-3">
+                        </div>
+                    </div>
+                </section>
+
+                <section id="tab-transactions" class="tab-content space-y-8">
+                    
+                    <div class="glass p-8 rounded-none">
+                        <h3 class="font-bold text-xl mb-6">Yeni İşlem Ekle</h3>
+                        
+                        <div class="flex bg-black/30 p-1 rounded-xl mb-4 border border-white/10">
+                            <button onclick="setTransType('expense')" id="btn-type-expense" class="flex-1 py-2 rounded-lg bg-gray-600 text-white font-medium transition-all">Gider</button>
+                            <button onclick="setTransType('income')" id="btn-type-income" class="flex-1 py-2 rounded-lg text-gray-400 font-medium transition-all">Gelir</button>
+                        </div>
+
+                        <div class="space-y-3">
+                            <input type="text" inputmode="decimal" pattern="[0-9]*" id="trans-amount" placeholder="Tutar (₺)" class="w-full rounded-xl p-3 outline-none">
+                            <input type="text" id="trans-desc" placeholder="Açıklama (Örn: Market)" class="w-full rounded-xl p-3 outline-none">
+
+                            <div id="recurring-wrapper" class="hidden">
+                                <label class="flex items-center gap-2 text-sm text-gray-300">
+                                    <input type="checkbox" id="trans-recurring" class="w-4 h-4 accent-accent-yellow">
+                                    <span id="trans-rec-label">Düzenli Ödeme</span>
+                                </label>
+                                <p class="text-xs text-gray-400 mt-1 ml-6">Her ay bugünün tarihinde hatırlatıcı kurulacak</p>
+                            </div>
+
+                            <button onclick="addTransaction()" class="w-full modern-btn-yellow p-3 rounded-xl font-bold mt-2">Kaydet</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="font-bold mb-4 text-xl">Son Hareketler</h3>
+                        <ul id="transaction-list" class="space-y-4">
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="tab-lists" class="tab-content space-y-8">
+                    
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-bold text-xl flex items-center gap-2">
+                            <i data-lucide="shopping-bag" class="w-6 h-6 text-accent-yellow"></i>
+                            Alışveriş Listeleri
+                        </h3>
+                    </div>
+
+                    <div class="flex gap-2">
+                        <input type="text" id="new-list-name" placeholder="Yeni Liste Adı (Örn: Giyim)" class="flex-1 rounded-xl p-3 outline-none">
+                        <button onclick="createList()" class="modern-btn-yellow p-3 rounded-xl"><i data-lucide="plus"></i></button>
+                    </div>
+
+                    <div id="shopping-lists-container" class="grid lg:grid-cols-2 gap-6">
+                    </div>
+                </section>
+
+                <section id="tab-reminders" class="tab-content space-y-8">
+                    
+                    <div class="glass p-8 rounded-none border-l-4 border-accent-yellow">
+                        <h3 class="font-bold text-xl mb-4">Yeni Hatırlatıcı</h3>
+                        <p class="text-xs text-gray-400 mb-4">Ödeme gününden 3 gün önce anasayfada uyarı verilir.</p>
+                        
+                        <div class="space-y-3">
+                            <input type="text" id="remind-title" placeholder="Başlık (Örn: Elektrik Faturası)" class="w-full rounded-xl p-3 outline-none">
+                            <input type="date" id="remind-date" class="w-full rounded-xl p-3 outline-none">
+                            <button onclick="addReminder()" class="w-full modern-btn-yellow font-bold p-3 rounded-xl">Hatırlatıcı Kur</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="font-bold mb-4 text-xl">Yaklaşan Ödemeler</h3>
+                        <ul id="reminder-list" class="space-y-3">
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="tab-settings" class="tab-content space-y-8">
+                    
+                    <div class="grid lg:grid-cols-2 gap-6">
+                        <div class="glass p-8 rounded-none">
+                            <h3 class="font-bold text-xl mb-6">Kullanıcı Bilgileri</h3>
+                            <div id="users-list-container" class="space-y-3">
+                            </div>
+                        </div>
+
+                        <div class="glass p-8 rounded-none">
+                            <h3 class="font-bold text-xl mb-6">Aylık Net Gelir</h3>
+                            <div id="salary-management-section" class="space-y-3">
+                            </div>
+                        </div>
+
+                        <div class="glass p-8 rounded-none">
+                            <h3 class="font-bold text-xl mb-6">RapidAPI Key</h3>
+                            <div class="space-y-3">
+                                <div class="bg-black/30 p-4 rounded-xl">
+                                    <p class="text-sm text-gray-400 mb-2">Mevcut API Key:</p>
+                                    <p id="current-api-key-display" class="text-sm font-mono text-gray-300 break-all">
+                                        Henüz API key kaydedilmedi
+                                    </p>
+                                </div>
+                                <button onclick="toggleApiKeyModal()" class="w-full modern-btn-yellow font-bold py-3 rounded-xl" id="api-key-button">
+                                    API Key Ekle
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="glass p-8 rounded-2xl" style="display: none;">
+                            <h3 class="font-bold text-xl mb-6">Tema</h3>
+                            <div class="space-y-3">
+                                <div class="bg-black/30 p-4 rounded-xl">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="text-sm font-medium mb-1">Görünüm Modu</p>
+                                            <p class="text-xs text-gray-400">Koyu veya açık tema seçin</p>
+                                        </div>
+                                        <button onclick="toggleTheme()" id="theme-toggle" class="modern-btn p-3 rounded-xl transition-all">
+                                            <i data-lucide="moon" class="w-5 h-5"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass p-8 rounded-none border-2 border-accent-yellow/50">
+                            <h3 class="font-bold text-xl mb-6 text-accent-yellow">Tester</h3>
+                            <div class="space-y-3">
+                                <p class="text-xs text-gray-400 mb-3">Geliştirici araçları - Tüm kayıtlı kullanıcıları görüntüle</p>
+                                <button onclick="showAllUsersModal()" class="w-full modern-btn-yellow font-bold py-3 rounded-xl">
+                                    Tüm Kullanıcıları Görüntüle
+                                </button>
+                                <button onclick="showDatabaseModal()" class="w-full modern-btn font-bold py-3 rounded-xl">
+                                    Veritabanını Görüntüle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+
+        <div id="api-key-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+            <div class="glass rounded-none p-6 max-w-md w-full">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold">RapidAPI Key</h3>
+                    <button onclick="toggleApiKeyModal()" class="text-gray-400 hover:text-white">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+                <input type="text" id="rapidapi-key-input" placeholder="X-RapidAPI-Key değerini buraya yapıştırın" class="w-full rounded-xl p-3 mb-4">
+                <div class="flex gap-2">
+                    <button onclick="saveApiKey()" class="flex-1 modern-btn-yellow font-bold py-3 rounded-xl">Kaydet</button>
+                    <button onclick="toggleApiKeyModal()" class="flex-1 modern-btn font-bold py-3 rounded-xl">İptal</button>
+                </div>
+            </div>
+        </div>
+                    
+        <div id="product-search-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+            <div class="glass rounded-none p-6 max-w-lg w-full max-h-[90vh] flex flex-col">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold">Ürün Ara</h3>
+                    <button onclick="closeProductSearch()" class="text-gray-400 hover:text-white">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+                <div class="flex gap-2 mb-4">
+                    <input type="text" id="product-search-input" placeholder="Ürün adı ara (örn: tişört, pantolon)" class="flex-1 rounded-xl p-3">
+                    <button onclick="searchProducts()" class="modern-btn-yellow px-4 rounded-xl">
+                        <i data-lucide="search" class="w-5 h-5"></i>
+                    </button>
+                </div>
+                <div id="product-search-results" class="flex-1 overflow-y-auto space-y-3 hide-scroll">
+                    <p class="text-center text-gray-400 py-8">Arama yapmak için yukarıdaki alanı kullanın</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="database-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+            <div class="glass rounded-none p-6 max-w-4xl w-full max-h-[90vh] flex flex-col">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold">Veritabanı İçeriği</h3>
+                    <button onclick="closeDatabaseModal()" class="text-gray-400 hover:text-white">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+                <div class="flex-1 overflow-y-auto hide-scroll">
+                    <pre id="database-content" class="bg-black/30 p-4 rounded-xl text-xs text-gray-300 font-mono overflow-x-auto whitespace-pre-wrap break-words"></pre>
+                </div>
+                <div class="flex gap-2 mt-4">
+                    <button onclick="copyDatabaseToClipboard()" class="flex-1 modern-btn-yellow font-bold py-3 rounded-xl">
+                        Kopyala
+                    </button>
+                    <button onclick="closeDatabaseModal()" class="flex-1 modern-btn font-bold py-3 rounded-xl">
+                        Kapat
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="js/stars.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/transactions.js"></script>
+    <script src="js/shopping.js"></script>
+    <script src="js/reminders.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

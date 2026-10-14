@@ -1,0 +1,80 @@
+/* ============================================
+   BUTTONS COMPONENT
+   Buton Stilleri
+   ============================================ */
+
+/* Yellow Accent Color */
+.accent-yellow {
+    color: #FFC700;
+}
+
+.bg-accent-yellow {
+    background-color: #FFC700;
+    color: #000000;
+}
+
+.bg-accent-yellow:hover {
+    background-color: #FFD700;
+}
+
+/* Modern Button Styles */
+.modern-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.modern-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.modern-btn-yellow {
+    background: #FFC700;
+    color: #000000;
+    border: none;
+}
+
+.modern-btn-yellow:hover {
+    background: #FFD700;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(255, 199, 0, 0.4);
+}
+
+/* Yellow Glow on Hover for Yellow Buttons */
+.modern-btn-yellow:hover {
+    box-shadow: 0 4px 20px rgba(255, 199, 0, 0.4), 0 0 0 1px rgba(255, 199, 0, 0.2);
+}
+
+/* Better Focus States */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: 2px solid #FFC700;
+    outline-offset: 2px;
+}
+
+/* Accent Yellow Text */
+.accent-yellow {
+    color: #FFC700 !important;
+}
+
+/* Bottom Navigation Active State */
+#bottom-nav button.active-tab {
+    color: #FFC700;
+}
+
+#bottom-nav button.active-tab i {
+    color: #FFC700;
+}
+
